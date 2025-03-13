@@ -1,0 +1,55 @@
+name: ${APP}-proxy-env
+
+secrets:
+  cloudflare-token:
+    file: "./traefik/secrets/cloudflare-token.secret"
+  cloudflare-email:
+    file: "./traefik/secrets/cloudflare-email.secret"
+
+services:
+  reverse-proxy:
+    image: traefik:latest
+    container_name: ${APP}-stag-reverse-proxy-container
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - proxy
+    ports:
+      - 80:80
+      - 443:443
+    secrets:
+      - "cloudflare-token"
+      - "cloudflare-email"
+    environment:
+      TRAEFIK_DASHBOARD_CREDENTIALS: ${TRAEFIK_DASHBOARD_CREDENTIALS}
+      CF_DNS_API_TOKEN_FILE: /run/secrets/cloudflare-token
+      CF_API_EMAIL_FILE: /run/secrets/cloudflare-email
+    env_file: .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/acme.json:/acme.json
+      - ./traefik/config.yml:/config.yml:ro
+      - ./traefik/logs:/var/log/traefik
+    labels:
+      - traefik.enable=true
+      # Middlewares
+      - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
+      - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
+      - traefik.http.middlewares.internal_ips.ipallowlist.sourcerange=10.147.17.0/32
+      - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.depth=1
+      - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.excludedips=127.0.0.1/32, 172.27.0.0/32
+
+      # Router traefik secure
+      - traefik.http.routers.tf_dashboard.entrypoints=https
+      - traefik.http.routers.tf_dashboard.rule=Host(`tf-dashboard.testautomationagency.com`)
+      - traefik.http.routers.tf_dashboard.middlewares=traefik-auth
+      - traefik.http.routers.tf_dashboard.service=api@internal
+      - traefik.http.routers.tf_dashboard.middlewares=internal_ips
+
+networks:
+  proxy:
+    name: test_traefik_proxy
+    external: true

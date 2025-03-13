@@ -1,0 +1,53 @@
+# Traefik-v3.json Schema validation file at. "https://json.schemastore.org/traefik-v3.json"
+# Add this file to the vscode settings "yaml.schemas"
+log:
+  level: WARN
+  filePath: /var/log/traefik/traefik.log
+  maxAge: 10
+  maxBackups: 20
+  compress: true
+api:
+  dashboard: true
+  debug: true
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+  https:
+    address: ":443"
+    http:
+      tls:
+        certResolver: cloudflare
+        domains:
+          - main: traefik-proxy-test-1.com
+            sans: 
+              - "*.traefik-proxy-test-1.com"
+serversTransport:
+  insecureSkipVerify: true
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /config.yml
+certificatesResolvers:
+  cloudflare:
+    acme:
+      email: marc@itqualab.com
+      storage: acme.json
+      # Uncomment the line below to use the production api to get the actual certificate.
+      # caServer: https://acme-v02.api.letsencrypt.org/directory
+
+      # Uncomment the line below to use the stating api for test certificates.
+      caServer: https://acme-staging-v02.api.letsencrypt.org/directory
+
+      dnsChallenge:
+        provider: cloudflare
+        #disablePropagationCheck: true # uncomment this if you have issues pulling certificates through cloudflare, By setting this flag to true disables the need to wait for the propagation of the TXT record to all authoritative name servers.
+        resolvers:
+          - "1.1.1.1:53"
+          - "1.0.0.1:53"
