@@ -17,7 +17,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/localtime:/etc/localtime:ro
       - ./traefik-test/traefik.yml:/traefik.yml:ro
-      - ./traefik/config.yml:/config.yml:ro
       - ./traefik-test/logs:/var/log/traefik
 
 networks:
@@ -39,7 +38,6 @@ networks:
 #       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
 #     ports:
 #       - "80:80"
-#       - "443:443"
 #       - "8080:8080"
 #     volumes:
 #       - "/var/run/docker.sock:/var/run/docker.sock:ro"
@@ -56,6 +54,3 @@ networks:
 #       - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:YWRtaW46JGFwcjEkTktZcndnbXIkcXdHa3Ztb1g2LmRlYWNjREVOcTBGLwoK"
 #       - "traefik.http.routers.traefik.middlewares=traefik-auth"
 
-# networks:
-#   traefik-public:
-#     external: true
