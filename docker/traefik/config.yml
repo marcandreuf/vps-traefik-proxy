@@ -1,0 +1,2 @@
+# Add the dynamic configuration for the docker compose services.
+# Try to use this configuration to create a dynamic configuration for the docker compose services and remove labels.

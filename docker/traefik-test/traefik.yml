@@ -1,0 +1,16 @@
+log:
+  level: WARN
+  filePath: /var/log/traefik/traefik.log
+  maxAge: 10
+  maxBackups: 20
+  compress: true
+api:
+  dashboard: true
+  debug: true
+  insecure: true  # Keep this false when using authentication
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+  file:
+    filename: /config.yml
