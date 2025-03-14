@@ -9,6 +9,7 @@ log:
 api:
   dashboard: true
   debug: true
+  insecure: false  # Keep this false when using authentication
 entryPoints:
   http:
     address: ":80"
@@ -23,9 +24,9 @@ entryPoints:
       tls:
         certResolver: cloudflare
         domains:
-          - main: traefik-proxy-test-1.com
+          - main: testlocalsetup.com
             sans: 
-              - "*.traefik-proxy-test-1.com"
+              - "*.testlocalsetup.com"
 serversTransport:
   insecureSkipVerify: true
 providers:
@@ -41,7 +42,6 @@ certificatesResolvers:
       storage: acme.json
       # Uncomment the line below to use the production api to get the actual certificate.
       # caServer: https://acme-v02.api.letsencrypt.org/directory
-
       # Uncomment the line below to use the stating api for test certificates.
       caServer: https://acme-staging-v02.api.letsencrypt.org/directory
 

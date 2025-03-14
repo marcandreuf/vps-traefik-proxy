@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+
+
+RUN apt-get install libnss3-tools &&\
+    curl -sSL https://github.com/FiloSottile/mkcert/releases/download/v1.4.4/mkcert-v1.4.4-linux-amd64 -o mkcert &&\
+    chmod +x mkcert &&\
+    mv mkcert /usr/local/bin/
+
+USER ubuntu
+
+
+
+
+

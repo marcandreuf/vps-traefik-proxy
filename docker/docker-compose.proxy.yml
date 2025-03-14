@@ -38,18 +38,21 @@ services:
       # Middlewares
       - traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}
       - traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https
-      - traefik.http.middlewares.internal_ips.ipallowlist.sourcerange=10.147.17.0/32
-      - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.depth=1
-      - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.excludedips=127.0.0.1/32, 172.27.0.0/32
+      - traefik.http.middlewares.internal_ips.ipallowlist.sourcerange=172.27.0.0/24,127.0.0.1/32
+      # - traefik.http.middlewares.internal_ips.ipallowlist.sourcerange=10.147.17.0/32
+      # - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.depth=1
+      # - traefik.http.middlewares.internal_ips.ipallowlist.ipstrategy.excludedips=127.0.0.1/32, 172.27.0.0/32
 
       # Router traefik secure
       - traefik.http.routers.tf_dashboard.entrypoints=https
-      - traefik.http.routers.tf_dashboard.rule=Host(`tf-dashboard.testautomationagency.com`)
-      - traefik.http.routers.tf_dashboard.middlewares=traefik-auth
+      - traefik.http.routers.tf_dashboard.rule=Host(`tf-dashboard.testlocalsetup.com`)
+      # - traefik.http.routers.tf_dashboard.middlewares=traefik-auth
       - traefik.http.routers.tf_dashboard.service=api@internal
-      - traefik.http.routers.tf_dashboard.middlewares=internal_ips
+      # - traefik.http.routers.tf_dashboard.middlewares=internal_ips
+      - traefik.http.routers.tf_dashboard.middlewares=internal_ips,traefik-auth
 
 networks:
   proxy:
     name: test_traefik_proxy
     external: true
+
