@@ -1,56 +1,35 @@
 
 services:
+
   reverse-proxy-test:
     image: traefik:v3.3
     container_name: ${APP}-stag-reverse-proxy-container
-    # Enables the web UI and tells Traefik to listen to docker
-    #command: --api.insecure=true --providers.docker
     networks:
       - proxy
     ports:
-      # The HTTP port
       - "80:80"
-      # The Web UI (enabled by --api.insecure=true)
+      - "443:443"
       - "8080:8080"
     volumes:
-      # So that Traefik can listen to the Docker events
-      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./certs:/certs
       - /etc/localtime:/etc/localtime:ro
       - ./traefik-test/traefik.yml:/traefik.yml:ro
       - ./traefik-test/logs:/var/log/traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dashboard.rule=Host(`tf-dashboard.testlocalsetup.com`)"
+      - "traefik.http.routers.dashboard.service=api@internal"
+      - "traefik.http.routers.dashboard.entrypoints=websecure"
+      - "traefik.http.routers.dashboard.tls=true"
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$xyas8m/8$$yL.jrM7BoiY8eqif/4h8T/"
+      - "traefik.http.routers.dashboard.middlewares=auth"
+
 
 networks:
   proxy:
     name: test_traefik_proxy
     external: true
 
-# services:
-#   traefik:
-#     image: "traefik:v3.3"
-#     container_name: "traefik"
-#     command:
-#       - "--api.insecure=true"
-#       - "--providers.docker=true"
-#       - "--providers.docker.exposedbydefault=false"
-#       - "--entrypoints.web.address=:80"
-#       - "--entrypoints.websecure.address=:443"
-#       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
-#       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
-#     ports:
-#       - "80:80"
-#       - "8080:8080"
-#     volumes:
-#       - "/var/run/docker.sock:/var/run/docker.sock:ro"
-#       - "./letsencrypt:/letsencrypt"
-#       - "./certs:/certs"
-#     networks:
-#       - traefik-public
-#     labels:
-#       - "traefik.enable=true"
-#       - "traefik.http.routers.traefik.rule=Host(`traefik.localhost`)"
-#       - "traefik.http.routers.traefik.service=api@internal"
-#       - "traefik.http.routers.traefik.tls=true"
-#       - "traefik.http.routers.traefik.entrypoints=websecure"
-#       - "traefik.http.middlewares.traefik-auth.basicauth.users=admin:YWRtaW46JGFwcjEkTktZcndnbXIkcXdHa3Ztb1g2LmRlYWNjREVOcTBGLwoK"
-#       - "traefik.http.routers.traefik.middlewares=traefik-auth"
+
 

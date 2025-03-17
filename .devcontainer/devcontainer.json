@@ -20,7 +20,8 @@
         "extensions.ignoreRecommendations": true
       },
       "extensions": [
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "gruntfuggly.todo-tree"
       ]
     }
   },

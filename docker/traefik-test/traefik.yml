@@ -10,7 +10,7 @@ log:
 api:
   dashboard: true
   debug: true
-  insecure: true  # Keep this false when using authentication
+  insecure: false  # Keep this false when using authentication
 
 providers:
   docker:

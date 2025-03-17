@@ -1,0 +1,38 @@
+
+Implement basic dev env setup for a traefik proxy serving a simple web app, with local certs.:
+
+  ✔ Implement a basic docker compose setup for traefik 3.0 to serve the dashboard. @done(25-03-17 11:19)
+  ✔ Add the CA certs to serve the dashboard with https only. @done(25-03-17 11:20)
+  ☐ Add a simple web app to serve as the main site.
+  ☐ Add a second sample web site in another docker compose file.
+  ☐ Update the Readme file with all the technical details.
+  ☐ Add a /docs as docs as code to this repo and use it as the 3rd web site for testing this setup.
+
+
+
+Implement an staging and production ready Traefik 3.0 proxy with Docker Compose for Cloudflare DNS.
+
+  ☐ Prepare the Cloudflare DNS setup for the domain.
+  ☐ Prepare a VPS with Docker and Docker Compose installed. 
+  ☐ Implement a basic docker compose setup for traefik 3.0 to serve the dashboard.
+  ☐ Add the LetsEncrypt certs to serve the dashboard with https only.
+  ☐ Add a simple web app to serve as the main site.
+  ☐ Add a second sample web site in another docker compose file.
+  ☐ Update the Readme file with all the technical details.
+  ☐ Update /docs as docs as code to this repo and use it as the 3rd web site for testing this setup.
+
+
+  Implement a safe access to the Traefik dashboard with a basic auth setup through a ssh tunnel.
+
+  ☐ Prepare ssh keys for the VPS.
+  ☐ Discover the Traefik container ip address.
+  ☐ Setup the ssh tunnel to the VPS link the traefik container ports to the local machine.
+  ☐ Access the Traefik dashboard through the ssh tunnel.
+  ☐ Update the Readme file with all the technical details.
+  ☐ Update /docs as docs as code to this repo and use it as the 3rd web site for testing this setup.
+
+
+
+
+
+    

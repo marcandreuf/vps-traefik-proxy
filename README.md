@@ -7,11 +7,19 @@ This repo is to do learning tests and technical documentation about how to setup
 # Docker commands
 
 Run base setup
-```bash
-docker compose -f docker/docker-compose.base.proxy.yml up
 
+```bash
+docker compose -f docker/docker-compose.base.proxy.yml up -d
+
+docker compose -f docker/docker-compose.base.proxy.yml down
 ```
+
+See logs at `docker/traefik-test/logs`
 Test at `http://localhost:8080`
+
+`https://tf-dashboard.testlocalsetup.com/`
+
+
 
 
 
@@ -30,23 +38,12 @@ Add the following lines to the hosts file. In linux `/etc/hosts`
 172.27.0.2  testlocalsetup.com
 ```
 
-htpasswd -nb admin "test12345" | openssl base64
 
-TODO:
+## Create passord for a traefik dashboard.
 
-- Test the proxy configuration locally.
-
-  1. Prepare devcontainer with mkcert to generate certs.
-  2. Add the CA certs for local testing to the base traefik docker compose
-  3. Build up from the base:
-    3.1 One setup for local dev with local certs
-    3.2. One setup for cloudflare certs
-    
-
-- Implementa a small sample web app for testing.
-- Add a second sample web site in another docker compose file
-- Update the Readme file with all the technical details.
-- Add a /docs as docs as code to this repo and use it as the 3rd web site for testing this setup.
+```bash
+echo $(htpasswd -nb admin 'test12345') | sed -e s/\\$/\\$\\$/g
+```
 
 
 # Create CA and certificates
