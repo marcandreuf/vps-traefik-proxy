@@ -1,6 +1,21 @@
 
 services:
 
+  mkcert:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkcert
+    volumes:
+      - ./traefik/certs:/certs
+    command: >
+      sh -c "mkdir -p /root/.local/share/mkcert &&
+             CAROOT=/root/.local/share/mkcert mkcert -install &&
+             mkcert -cert-file /certs/cert.pem -key-file /certs/key.pem 'tf-dashboard.testlocalsetup.com' '*.testlocalsetup.com' &&
+             cp /root/.local/share/mkcert/rootCA.pem /certs/ &&
+             chown -R 1000:1000 /certs/*"
+    
+
+
   reverse-proxy-test:
     image: traefik:v3.3
     container_name: ${APP}-local-reverse-proxy-container
@@ -12,7 +27,7 @@ services:
       - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ./certs:/certs
+      - ./traefik/certs:/certs
       - /etc/localtime:/etc/localtime:ro
       - ./traefik/traefik.yml:/traefik.yml:ro
       - ./traefik/logs:/var/log/traefik

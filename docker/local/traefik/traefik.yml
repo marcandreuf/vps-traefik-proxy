@@ -2,7 +2,7 @@
 
 log:
   level: WARN
-  filePath: /var/log/traefik-local/traefik.log
+  filePath: /var/log/traefik/traefik.log
   maxAge: 10
   maxBackups: 20
   compress: true
@@ -11,6 +11,11 @@ api:
   dashboard: true
   debug: true
   insecure: false  # Keep this false when using authentication
+
+tls:
+  certificates:
+    - certFile: "/certs/cert.pem"
+      keyFile: "/certs/key.pem"
 
 entryPoints:
   web:

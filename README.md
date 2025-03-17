@@ -45,6 +45,21 @@ When the traefik.yml `api.insecure` is set to `true` open the Traefik dashboard 
 
 When the hosts file is pointing to the proxy container (see details below in the hosts notes), the basic auth is configured via labels and the `api.insecure` is set to `false` open at `https://tf-dashboard.testlocalsetup.com/`.
 
+### Local trusted certificates.
+
+We can create local trusted certificates to avoid having to accept the risk warnings on the browsers, every time that we restart the local proxy dev env.
+
+1. Run the this command to generate the certificates.
+```bash
+docker compose -f docker/local/docker-compose.proxy.yml run --rm mkcert
+```
+
+2. Add the `/docker/local/certs/rootCA.pem` to the browser settings Certificate Authorities.
+  The new certificate authority should appear with the Certificate Name `mkcert development CA`
+
+
+
+
 
 ## Basic Auth for traefik dashboard.
 
@@ -68,8 +83,11 @@ docker stats
 Local development environment:
 
 ```bash
+
 # Start
 docker compose -f docker/local/docker-compose.proxy.yml up
+# or 
+docker compose -f docker/local/docker-compose.proxy.yml up --force-recreate
 
 # Stop
 docker compose -f docker/local/docker-compose.proxy.yml stop
