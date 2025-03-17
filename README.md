@@ -1,10 +1,37 @@
-# vps-traefik-proxy
-Docker compose devops setup for a traefik proxy on a virtual private server
+# Traefik development environments setup
 
-This repo is to do learning tests and technical documentation about how to setup a dockerised traefik proxy to serve web applications from a vps.
+**This repo contains helping code to document and implement Traefik web proxies.**
 
+I used docker compose to setup each traefik proxy that can be used to run this infrastructure locally on a virtual private server.
 
-# Traefik notes:
+> This is the setup that I use test and publish my online projects on my VPSs. For now, I am all about self hosting and minimise costs. 
+
+<br/>
+
+# Host machine notes
+
+## Local configuration
+
+> Required for local dev
+
+For each development environment there is a `docker/{env}` folder where env is `local, staging, ...`
+For each env we need to **copy the `docker/{env}/.env.dist` file into its `docker/{env}/.env`** and 
+ammend the configuration as required, see the comments in the file.
+
+## Hosts file
+> Required for local dev
+
+Setup the hosts file to point to the sample test domain. i.e in linux add the following line to the `/etc/hosts` file.
+
+```bash
+# Get the container ip address of the traefik service.
+# i.e run the command `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} <container_name_or_id>`
+
+172.27.0.2  tf-dashboard.testlocalsetup.com
+```
+<br/>
+
+# Traefik notes
 
 ## Traefik local dev env
 
@@ -29,6 +56,7 @@ echo $(htpasswd -nb admin 'test12345') | sed -e s/\\$/\\$\\$/g
 # i.e admin:$$apr1$$LEDbM....
 ```
 
+<br/>
 
 # Docker notes
 
@@ -54,26 +82,17 @@ docker compose -f docker/local/docker-compose.proxy.yml down
 ```
 
 
-# Host notes:
-
-Setup the hosts file to point to the sample test domain.
-
-i.e in linux add the following line to the `/etc/hosts` file.
-
-```bash
-# Get the container ip address of the traefik service.
-# i.e run the command `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} <container_name_or_id>`
-
-172.27.0.2  tf-dashboard.testlocalsetup.com
-```
 
 
 
 
 
 
+<br/><br/><br/><br/><br/><br/><br/>
 
---- To review :
+----
+----
+> Content Pending review
 
 
 # Create CA and certificates
