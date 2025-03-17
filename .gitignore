@@ -25,10 +25,12 @@ replay_pid*
 
 .env
 
-docker/traefik/logs/*
-docker/traefik/acme.json
-
-docker/traefik/secrets/cloudflare-email.secret
-docker/traefik/secrets/cloudflare-token.secret
+/**/*.log
+/**/acme.json
+/**/*.pem
+/**/*.crt
+/**/*.key
+/**/cloudflare-email.secret
+/**/cloudflare-token.secret
 
 

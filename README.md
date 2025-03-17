@@ -4,11 +4,17 @@ Docker compose devops setup for a traefik proxy on a virtual private server
 This repo is to do learning tests and technical documentation about how to setup a dockerised traefik proxy to serve web applications from a vps.
 
 
+# Traefik local dev env
+
+The traefik configuration at `docker/traefik-local` is a configuration to test and learn traefik on a local dev env.
+
+
 # Docker commands
 
 Run base setup
 
 ```bash
+
 docker compose -f docker/docker-compose.base.proxy.yml up -d
 
 docker compose -f docker/docker-compose.base.proxy.yml down
