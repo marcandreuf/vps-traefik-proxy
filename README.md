@@ -4,52 +4,76 @@ Docker compose devops setup for a traefik proxy on a virtual private server
 This repo is to do learning tests and technical documentation about how to setup a dockerised traefik proxy to serve web applications from a vps.
 
 
-# Traefik local dev env
+# Traefik notes:
+
+## Traefik local dev env
 
 The traefik configuration at `docker/traefik-local` is a configuration to test and learn traefik on a local dev env.
 
+### Observability
 
-# Docker commands
+Monitor the traefik logs at `docker/local/traefik/logs`
 
-Run base setup
+When the traefik.yml `api.insecure` is set to `true` open the Traefik dashboard at `http://localhost:8080`.
 
+When the hosts file is pointing to the proxy container (see details below in the hosts notes), the basic auth is configured via labels and the `api.insecure` is set to `false` open at `https://tf-dashboard.testlocalsetup.com/`.
+
+
+## Basic Auth for traefik dashboard.
+
+To create the basic credentials for the dashboard use this command and copy paste the generated line as the value for the proxy container label "traefik.http.middlewares.auth.basicauth.users"
 ```bash
-
-docker compose -f docker/docker-compose.base.proxy.yml up -d
-
-docker compose -f docker/docker-compose.base.proxy.yml down
-```
-
-See logs at `docker/traefik-test/logs`
-Test at `http://localhost:8080`
-
-`https://tf-dashboard.testlocalsetup.com/`
-
-
-
-
-
-
-Get the proxy docker container ip address:
-```bash
-docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-app-stag-reverse-proxy-container
-```
-
-# Host setup for testing
-
-Add the following lines to the hosts file. In linux `/etc/hosts`
-
-```bash
-# Traefik testing 
-172.27.0.2  testlocalsetup.com
-```
-
-
-## Create passord for a traefik dashboard.
-
-```bash
+# Install htpasswd package if needed. 
+# sudo apt-get install apache2-utils
 echo $(htpasswd -nb admin 'test12345') | sed -e s/\\$/\\$\\$/g
+# i.e admin:$$apr1$$LEDbM....
 ```
+
+
+# Docker notes
+
+Use this command to observer the running containers.
+```bash
+docker stats
+```
+
+Local development environment:
+
+```bash
+# Start
+docker compose -f docker/local/docker-compose.proxy.yml up
+
+# Stop
+docker compose -f docker/local/docker-compose.proxy.yml stop
+
+# For quick tests
+docker compose -f docker/local/docker-compose.proxy.yml restart
+
+# Stop and remove
+docker compose -f docker/local/docker-compose.proxy.yml down
+```
+
+
+# Host notes:
+
+Setup the hosts file to point to the sample test domain.
+
+i.e in linux add the following line to the `/etc/hosts` file.
+
+```bash
+# Get the container ip address of the traefik service.
+# i.e run the command `docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}} <container_name_or_id>`
+
+172.27.0.2  tf-dashboard.testlocalsetup.com
+```
+
+
+
+
+
+
+
+--- To review :
 
 
 # Create CA and certificates
@@ -124,23 +148,3 @@ curl -vk --resolve tf-dashboard.testlocalsetup.com:443:127.0.0.1 \
   https://tf-dashboard.testlocalsetup.com
 ```
 
-### Key Changes from Production Setup
-1. Replaced Let's Encrypt with mkcert certificates[7]
-2. Removed Cloudflare DNS challenge requirements[1][4]
-3. Simplified certificate management using static files[6][8]
-4. Maintained IP whitelisting for local network access[3][5]
-
-This configuration will provide browser-trusted HTTPS without certificate warnings while keeping all traffic local. The mkcert-issued certificates are valid for 2 years by default, making them ideal for development environments[7].
-
-Citations:
-[1] https://docs.docker.com/guides/traefik/
-[2] https://community.traefik.io/t/traefik-on-docker-generating-service-pointing-to-localhost/24874
-[3] https://www.reddit.com/r/Traefik/comments/k8g00d/docker_traefik_for_local_development_server/
-[4] https://doc.traefik.io/traefik/routing/providers/docker/
-[5] https://www.garygitton.fr/streamline-local-dev-with-traefik-3/
-[6] https://doc.traefik.io/traefik/providers/docker/
-[7] https://dev.to/agusrdz/setting-up-traefik-and-mkcert-for-local-development-48j5
-[8] https://community.traefik.io/t/i-want-docker-to-listen-to-http-localhost-user-and-forward-to-http-portal-local-user-using-traefik/17631
-
----
-Answer from Perplexity: pplx.ai/share

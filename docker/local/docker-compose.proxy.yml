@@ -3,7 +3,7 @@ services:
 
   reverse-proxy-test:
     image: traefik:v3.3
-    container_name: ${APP}-stag-reverse-proxy-container
+    container_name: ${APP}-local-reverse-proxy-container
     networks:
       - proxy
     ports:
@@ -14,14 +14,17 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./certs:/certs
       - /etc/localtime:/etc/localtime:ro
-      - ./traefik-test/traefik.yml:/traefik.yml:ro
-      - ./traefik-test/logs:/var/log/traefik
+      - ./traefik/traefik.yml:/traefik.yml:ro
+      - ./traefik/logs:/var/log/traefik
     labels:
       - "traefik.enable=true"
+      # Setup the hosts file with this container ip address and the domain name used for testing.
+      # i.e 172.27.0.2  tf-dashboard.testlocalsetup.com
       - "traefik.http.routers.dashboard.rule=Host(`tf-dashboard.testlocalsetup.com`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.entrypoints=websecure"
       - "traefik.http.routers.dashboard.tls=true"
+      # Read the Readme 'Basic Auth for traefik dashboard.' section to understand how to generate the password.
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$xyas8m/8$$yL.jrM7BoiY8eqif/4h8T/"
       - "traefik.http.routers.dashboard.middlewares=auth"
 
