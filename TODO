@@ -5,7 +5,8 @@ Implement basic dev env setup for a traefik proxy serving a simple web app, with
   ✔ Add the CA certs to serve the dashboard with https only. @done(25-03-17 11:20)
   ✔ Refactor and organise the proejct, traefik-test into traefik with config files. @done(25-03-17 12:10)
   ✔ Review and update docs. Prepare docs as code. @done(25-03-17 12:42)
-  ☐ Configure a local trusted certificated for the traefik dashboard.
+  ✔ Add devcontainer setup to have the right extensions and tools. @done(25-03-18 12:17)
+  ☐ Configure a local trusted certificated for the traefik dashboard. 
   ☐ Add a simple web app to serve as the main site.
   ☐ Add a second sample web site in another docker compose file.
   ☐ Update the Readme file with all the technical details.

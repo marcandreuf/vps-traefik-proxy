@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Update package lists
+RUN apt-get update && apt-get upgrade -y
+
+# Default to use the ubuntu user for VS Code Remote-Containers
+USER ubuntu
+RUN mkdir -p /home/ubuntu/workspace
+WORKDIR /home/ubuntu/workspace
+
+
+
+

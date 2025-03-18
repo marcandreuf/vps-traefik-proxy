@@ -1,0 +1,29 @@
+{
+	"name": "traefik proxy playground",
+	"dockerComposeFile": "../docker/devcontainer/docker-compose.yml",
+	"service": "dev_env",
+	"workspaceFolder": "/home/ubuntu/workspace",
+	"shutdownAction": "stopCompose",
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+	"mounts": [
+		"source=/home/madpad/.gitconfig,target=/home/ubuntu/.gitconfig,type=bind,consistency=cached",
+		"source=/home/madpad/.ssh/id_ed25519,target=/home/ubuntu/.ssh/id_ed25519,type=bind,consistency=cached"
+	],
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"extensions.ignoreRecommendations": true
+			},
+			"extensions": [
+				"mhutchie.git-graph",
+				"github.copilot",
+				"github.copilot-chat",
+				"fabiospampinato.vscode-todo-plus",
+				"fabiospampinato.vscode-highlight",
+                "redhat.vscode-yaml"
+			]
+		}
+	}
+}

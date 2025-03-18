@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  dev_env:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: dev_env
+    image: dev_env        
+    tty: true
+    restart: unless-stopped
+    volumes:
+      - ./../..:/home/ubuntu/workspace
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: sleep infinity
+    healthcheck:
+      test: ["CMD", "pgrep", "sleep"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
