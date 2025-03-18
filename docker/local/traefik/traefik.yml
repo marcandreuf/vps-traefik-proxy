@@ -8,16 +8,19 @@ log:
   compress: true
 
 api:
-  dashboard: true
+  dashboard: true  
   debug: true
   insecure: false  # Keep this false when using authentication
 
 tls:
   certificates:
-    - certFile: "/certs/cert.pem"
-      keyFile: "/certs/key.pem"
+    - certFile: /certs/_wildcard.testlocalsetup.com.pem
+      keyFile: /certs/_wildcard.testlocalsetup.com-key.pem
+
 
 entryPoints:
+  ping:
+    address: ":8082"
   web:
     address: ":80"
     http:
@@ -40,3 +43,7 @@ providers:
   # See more details here: https://community.traefik.io/t/understanding-difference-between-labels-in-a-container-vs-defining-in-the-config-yml/16246/4
   # file: 
   #   filename: /config.yml
+
+ping:
+  entryPoint: web
+
