@@ -1,4 +1,6 @@
 
+global:
+  sendAnonymousUsage: false
 
 log:
   level: WARN
@@ -14,8 +16,8 @@ api:
 
 tls:
   certificates:
-    - certFile: /certs/_wildcard.testlocalsetup.com.pem
-      keyFile: /certs/_wildcard.testlocalsetup.com-key.pem
+    - certFile: /etc/certs/_wildcard.testlocalsetup.com.pem
+      keyFile: /etc/certs/_wildcard.testlocalsetup.com-key.pem
 
 
 entryPoints:
