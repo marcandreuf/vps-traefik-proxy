@@ -9,7 +9,8 @@
 	},
 	"mounts": [
 		"source=/home/madpad/.gitconfig,target=/home/ubuntu/.gitconfig,type=bind,consistency=cached",
-		"source=/home/madpad/.ssh/id_ed25519,target=/home/ubuntu/.ssh/id_ed25519,type=bind,consistency=cached"
+		"source=/home/madpad/.ssh/id_ed25519,target=/home/ubuntu/.ssh/id_ed25519,type=bind,consistency=cached",
+		"source=/home/madpad/.ssh/known_hosts,target=/home/ubuntu/.ssh/known_hosts,type=bind,consistency=cached"
 	],
 	"customizations": {
 		"vscode": {
