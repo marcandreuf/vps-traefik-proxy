@@ -4,7 +4,9 @@
 
 I used docker compose to setup each traefik proxy that can be used to run this infrastructure locally on a virtual private server.
 
-> [!NOTE] This is the setup that I use test and publish my online projects on my VPSs. For now, I am all about self hosting and minimise costs. 
+> [!NOTE]
+> This is the setup that I use test and publish my online projects on my VPSs. For now, I am all about self hosting and minimise costs. 
+
 
 <br/>
 
@@ -12,14 +14,16 @@ I used docker compose to setup each traefik proxy that can be used to run this i
 
 ## Local configuration
 
-> [!IMPORTANT] Required for local dev
+> [!IMPORTANT] 
+> Required for local dev
 
 For each development environment there is a `docker/{env}` folder where env is `local, staging, ...`
 For each env we need to **copy the `docker/{env}/.env.dist` file into its `docker/{env}/.env`** and 
 ammend the configuration as required, see the comments in the file.
 
 ## Hosts file
-> [!IMPORTANT] Required for local dev
+> [!IMPORTANT]
+> Required for local dev
 
 Setup the hosts file to point to the sample test domain. i.e in linux add the following line to the `/etc/hosts` file.
 
@@ -65,12 +69,14 @@ docker compose -f docker/local/docker-compose.certs.yml run --rm mkcert
 ```
 New certificates shold be created at the `docker/local/traefik/certs` folder.
 
-> [!IMPORTANT]  For security we choose to run the mkcert tool inside its own container to only generate the certificate files and we avoid installing this tool on the host machine. 
+> [!IMPORTANT]
+> For security we choose to run the mkcert tool inside its own container to only generate the certificate files and we avoid installing this tool on the host machine. 
 
 2. Add the `/docker/local/certs/rootCA.pem` to the browser settings Certificate Authorities.
   The new certificate authority should appear with the Certificate Name `mkcert development CA`
 
-> [!NOTE] We could automte this setp with a set of script for each OS. 
+> [!NOTE]
+> We could automte this setp with a set of script for each OS. 
 
 
 ## Basic Auth for traefik dashboard.
