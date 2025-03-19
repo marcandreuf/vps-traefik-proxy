@@ -1,0 +1,15 @@
+
+services:
+
+  mkcert:
+    build:
+      context: .
+      dockerfile: Dockerfile.mkcert
+    volumes:
+      - ./traefik/certs:/certs
+    command: >
+      sh -c "mkdir -p /root/.local/share/mkcert &&
+             mkcert -install &&
+             mkcert '*.testlocalsetup.com' &&
+             cp /root/.local/share/mkcert/rootCA.pem /certs/ &&
+             chown -R 1000:1000 /certs/*"

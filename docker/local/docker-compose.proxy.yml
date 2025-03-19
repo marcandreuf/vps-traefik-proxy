@@ -1,20 +1,6 @@
 
 services:
 
-  # mkcert:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile.mkcert
-  #   volumes:
-  #     - ./traefik/certs:/certs
-  #   command: >
-  #     sh -c "mkdir -p /root/.local/share/mkcert &&
-  #            mkcert -install &&
-  #            mkcert '*.testlocalsetup.com' &&
-  #            cp /root/.local/share/mkcert/rootCA.pem /certs/ &&
-  #            chown -R 1000:1000 /certs/*"
-
-
   reverse-proxy-test:
     image: traefik:v3.3
     container_name: ${APP}-local-reverse-proxy-container
@@ -24,7 +10,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      # - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - ./traefik/certs:/etc/certs:ro
@@ -34,8 +19,6 @@ services:
       - ./traefik/logs:/var/log/traefik
     labels:
       - "traefik.enable=true"
-      # Setup the hosts file with this container ip address and the domain name used for testing.
-      # i.e 172.27.0.2  tf-dashboard.testlocalsetup.com
       - "traefik.http.routers.dashboard.rule=Host(`tf-dashboard.testlocalsetup.com`)"
       - "traefik.http.routers.dashboard.service=api@internal"
       - "traefik.http.routers.dashboard.tls=true"
@@ -43,9 +26,6 @@ services:
       # Read the Readme 'Basic Auth for traefik dashboard.' section to understand how to generate the password.
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$apr1$$xyas8m/8$$yL.jrM7BoiY8eqif/4h8T/"
       - "traefik.http.routers.dashboard.middlewares=auth"
-      # - "traefik.entrypoints.websecure.tls.certificates=[{certFile:/etc/certs/_wildcard.testlocalsetup.com.pem,keyFile:/etc/certs/_wildcard.testlocalsetup.com-key.pem}]"
-      # - "traefik.http.routers.dashboard.tls.certresolver=default"
-      # - "traefik.http.routers.dashboard.tls.domains[0].main=*.testlocalsetup.com"
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
       interval: 10s
@@ -63,17 +43,11 @@ services:
       - "traefik.http.routers.whoami.rule=Host(`whoami.testlocalsetup.com`)"
       - "traefik.http.routers.whoami.tls=true"
       - "traefik.http.routers.whoami.entrypoints=websecure"
-      # - "traefik.http.routers.whoami.tls.certresolver=default"
-      # - "traefik.http.routers.whoami.tls.domains[0].main=*.testlocalsetup.com"
     depends_on:
       reverse-proxy-test:
         condition: service_healthy
-  
 
 networks:
   proxy:
     name: test_traefik_proxy
     external: true
-
-
-
