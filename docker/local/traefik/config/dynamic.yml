@@ -1,0 +1,17 @@
+tls:
+  certificates:
+    - certFile: /etc/certs/_wildcard.testlocalsetup.com.pem
+      keyFile: /etc/certs/_wildcard.testlocalsetup.com-key.pem
+      stores:
+        - default
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/certs/_wildcard.testlocalsetup.com.pem
+        keyFile: /etc/certs/_wildcard.testlocalsetup.com-key.pem
+  options:
+    default:
+      minVersion: VersionTLS12
+      
+
+

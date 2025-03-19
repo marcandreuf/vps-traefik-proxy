@@ -1,9 +1,10 @@
 
 global:
+  checkNewVersion: false
   sendAnonymousUsage: false
 
 log:
-  level: WARN
+  level: DEBUG
   filePath: /var/log/traefik/traefik.log
   maxAge: 10
   maxBackups: 20
@@ -13,12 +14,6 @@ api:
   dashboard: true  
   debug: true
   insecure: false  # Keep this false when using authentication
-
-tls:
-  certificates:
-    - certFile: /etc/certs/_wildcard.testlocalsetup.com.pem
-      keyFile: /etc/certs/_wildcard.testlocalsetup.com-key.pem
-
 
 entryPoints:
   ping:
@@ -32,6 +27,12 @@ entryPoints:
           scheme: https
   websecure:
     address: ":443"
+    http:
+      tls:
+        domains:
+          - main: "*.testlocalsetup.com"
+            sans:
+              - "*.testlocalsetup.com"
 
 # TODO: Review the security of this and provie a better solution for a local development environment.
 # serversTransport:
@@ -41,10 +42,10 @@ providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
     exposedByDefault: false
-  # For docker compose it is recommended to use service lablels to expose services to traefik.
-  # See more details here: https://community.traefik.io/t/understanding-difference-between-labels-in-a-container-vs-defining-in-the-config-yml/16246/4
-  # file: 
+  file:  # Enable File provider
   #   filename: /config.yml
+    directory: "/etc/traefik/config"  # Watch all files in this directory
+    watch: true  # Automatically reload on changes
 
 ping:
   entryPoint: web

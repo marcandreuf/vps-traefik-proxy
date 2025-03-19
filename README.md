@@ -185,3 +185,16 @@ curl -vk --resolve tf-dashboard.testlocalsetup.com:443:127.0.0.1 \
   https://tf-dashboard.testlocalsetup.com
 ```
 
+# References:
+
+* Traefik with Letsencrypt certs of a public domain using Cloudflare DNS. [Youtube: Christian Lempa: Simple HTTPs for Docker! // Traefik Tutorial (updated)](https://www.youtube.com/watch?v=-hfejNXqOzA)
+
+
+
+# NOTES:
+
+## Key struggles:
+
+* Setup self signed certs for local dev without a public domain. The key point is to setup the
+tls.certificates into a dynamic config file, not in the static traefik.yml config file.
+
