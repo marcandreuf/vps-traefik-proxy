@@ -8,10 +8,8 @@ Implement basic dev env setup for a traefik proxy serving a simple web app, with
   ✔ Add devcontainer setup to have the right extensions and tools. @done(25-03-18 12:17)
   ✔ Configure a local trusted certificated for the traefik dashboard. @done(25-03-19 11:30)
   ✔ Add a simple web app to serve as the main site. Added 'whoami' service. @done(25-03-19 11:30)
-  ☐ Add a docs as code site as the 3rd web site for testing this setup. 
-    * Source: (https://www.youtube.com/watch?v=xKOhIJQi84w)
-    * Configure a new service in the docker-compose file.
-    * Serve this site with another domain name and its own certificate for https.  
+  ✔ Add a docs as code site as the 3rd web site for testing this setup. @done(25-03-21 04:49)
+  ☐ Serve the docs site with another domain name and its own certificate for https.  
   ☐ Update the Readme file with all the technical details.
 
 

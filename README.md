@@ -120,14 +120,14 @@ docker compose -f docker/local/docker-compose.proxy.yml down
 The `sample_app`represents a front-end application that we are actively developing.
 In this case I created a [Docusaurus](https://docusaurus.io/) basic sample web app. 
 
-To test the https local dev env we define a new docker compose service in the `docker/local/docker-compose.sample-app.yml`. This service runs in the same Traefik proxied network and has the necessary labels to get discovered and be served by the Traefik reverse proxy at `https://docusaurus.testlocalsetup.com/`. This service serves the static build of the docuserver sample app, this is not to be used to develop this application, but rather to expose this service with https when we work and test other applications depending on this sample app.
+To test the https local dev env we define a new docker compose service in the `docker/local/docker-compose.sample-app.yml`. This service runs in the same Traefik proxied network and has the necessary labels to get discovered and be served by the Traefik reverse proxy at `https://docusaurus.sampleapp.com/`. This service serves the static build of the docuserver sample app, this is not to be used to develop this application, but rather to expose this service with https when we work and test other applications depending on this sample app.
 
 > [!NOTE]
 > We need to define the DNS for each new app served locally.
 
 ```bash
 # Add this line to the hosts file.
-127.0.0.1       docusaurus.testlocalsetup.com
+127.0.0.1       docusaurus.sampleapp.com
 ```
 
 

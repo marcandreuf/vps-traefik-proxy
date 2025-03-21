@@ -1,6 +1,7 @@
 
 services:
 
+
   mkcert:
     build:
       context: .
@@ -10,6 +11,7 @@ services:
     command: >
       sh -c "mkdir -p /root/.local/share/mkcert &&
              mkcert -install &&
-             mkcert '*.testlocalsetup.com' &&
+             mkcert '*.testlocalsetup.com'&&
+             mkcert  '*.sampleapp.com' &&
              cp /root/.local/share/mkcert/rootCA.pem /certs/ &&
              chown -R 1000:1000 /certs/*"

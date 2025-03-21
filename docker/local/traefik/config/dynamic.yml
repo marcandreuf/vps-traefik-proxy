@@ -1,7 +1,12 @@
+
 tls:
   certificates:
     - certFile: /etc/certs/_wildcard.testlocalsetup.com.pem
       keyFile: /etc/certs/_wildcard.testlocalsetup.com-key.pem
+      stores:
+        - default
+    - certFile: /etc/certs/_wildcard.sampleapp.com.pem
+      keyFile: /etc/certs/_wildcard.sampleapp.com-key.pem
       stores:
         - default
   stores:
