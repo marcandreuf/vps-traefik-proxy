@@ -4,9 +4,13 @@ services:
   dev_env:
     build:
       context: .
-      dockerfile: dockerfile
+      # Select the base env setup you want to use.
+      #dockerfile: Dockerfile.ubuntu
+      dockerfile: Dockerfile.node
     container_name: dev_env
     image: dev_env        
+    ports:
+      - 3000:3000
     tty: true
     restart: unless-stopped
     volumes:

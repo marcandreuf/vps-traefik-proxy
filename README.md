@@ -97,11 +97,10 @@ Use this command to observer the running containers.
 ```bash
 docker stats
 ```
-
+## Traefik proxy
 Local proxyied apps development environment:
 
 ```bash
-
 # Start
 docker compose -f docker/local/docker-compose.proxy.yml up
 # or 
@@ -116,6 +115,45 @@ docker compose -f docker/local/docker-compose.proxy.yml restart
 # Stop and remove
 docker compose -f docker/local/docker-compose.proxy.yml down
 ```
+
+## Sample app
+The `sample_app`represents a front-end application that we are actively developing.
+In this case I created a [Docusaurus](https://docusaurus.io/) basic sample web app. 
+
+To test the https local dev env we define a new docker compose service in the `docker/local/docker-compose.sample-app.yml`. This service runs in the same Traefik proxied network and has the necessary labels to get discovered and be served by the Traefik reverse proxy at `https://docusaurus.testlocalsetup.com/`. This service serves the static build of the docuserver sample app, this is not to be used to develop this application, but rather to expose this service with https when we work and test other applications depending on this sample app.
+
+> [!NOTE]
+> We need to define the DNS for each new app served locally.
+
+```bash
+# Add this line to the hosts file.
+127.0.0.1       docusaurus.testlocalsetup.com
+```
+
+
+To start and stop the sample app service with https:
+```bash
+# Deploy the static sample app
+docker compose -f docker/local/docker-compose.sample-app.yml up -d
+
+# Stop and remove the static sample app
+docker compose -f docker/local/docker-compose.sample-app.yml down
+
+# To watch the logs
+docker logs --follow $(sed -n 's/^APP=//p' docker/local/.env)-local-docusaurus-container
+```
+
+To develop on the docusaurus sample application simply workn within the devContainer environment and run the following commands in the terminal:
+
+```bash
+cd sample_app
+pnpm run start
+# or run other docusaurus scripts of the sample_app/package.json 
+
+# To update/redeploy the application served by the docker compose service.
+pnpm run build
+```
+
 
 <br/>
 
@@ -134,3 +172,9 @@ docker compose -f docker/local/docker-compose.proxy.yml down
 * Setup self signed certs for local dev without a public domain. The key point is to setup the
 tls.certificates into a dynamic config file, not in the static traefik.yml config file.
 [text](docker/local/docker-compose.proxy.yml)
+
+
+* [Docusaurus docs ](https://docusaurus.io/docs/api/misc/create-docusaurus)
+
+
+

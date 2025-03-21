@@ -1,0 +1,6 @@
+FROM ghcr.io/marcandreuf/base-images/frontend-node22-pnpm:main
+
+# Placeholder for custom local dev container setup
+
+
+

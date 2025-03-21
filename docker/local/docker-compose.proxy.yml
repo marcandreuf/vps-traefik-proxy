@@ -33,6 +33,7 @@ services:
       retries: 3
       start_period: 10s
 
+  # This is a test service to check if the reverse proxy is working.
   whoami:
     image: traefik/whoami
     container_name: ${APP}-local-whoami-container
